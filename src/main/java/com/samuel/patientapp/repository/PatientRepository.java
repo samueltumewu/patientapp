@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PatientRepository  extends JpaRepository<Patient, Long> {
-    public Page<Patient> findByFirstNameContainingOrLastNameContaining(String firstname, String lastname,
+    public Page<Patient> findByFirstNameIgnoreCaseContainingOrLastNameIgnoreCaseContaining(String firstname, String lastname,
                                                    Pageable pageable);
 }

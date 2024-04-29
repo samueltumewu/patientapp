@@ -29,13 +29,7 @@ public class PatientController {
                    @RequestParam(defaultValue = "5", name = "size") int pageSize)
             throws Exception
     {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("pid"));
-        Page<Patient> pageResult;
-        if (firstName == null && lastName == null)
-            pageResult = null;
-        else{
-            pageResult = patientService.getAllPatientsByFirstNameContainingOrLastNameContaining(firstName, lastName, pageable);
-        }
+        Page<Patient> pageResult = patientService.getAllPatients(firstName, lastName, pageNumber, pageSize);
 
         Map<String, Object> respMap = new HashMap<>();
         respMap.put("content", pageResult.getContent());
@@ -51,10 +45,31 @@ public class PatientController {
     getByPid(@PathVariable long pid)
             throws Exception
     {
-        Optional<Patient> optionalPatient = patientService.getAllPatientsById(pid);
-        if (optionalPatient.isPresent()){
-            return ResponseEntity.ok().body(optionalPatient.get());
-        }
-        return ResponseEntity.notFound().build();
+        Patient foundPatient = patientService.getPatientByPID(pid);
+        return foundPatient != null ?
+                ResponseEntity.ok().body(foundPatient):
+                ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<Patient> insertNewPatient(@RequestBody Patient newPatient) throws Exception {
+        Patient patient = patientService.savePatient(newPatient);
+        return ResponseEntity.ok().body(patient);
+    }
+
+    @PutMapping("/pid/{pid}")
+    public ResponseEntity<Patient> updateExistingPatient(@PathVariable("pid") long pid, @RequestBody Patient patient) throws Exception {
+        Patient updatedPatient = patientService.updateExistingPatient(pid, patient);
+        return updatedPatient != null ?
+                ResponseEntity.ok().body(updatedPatient) :
+                ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/pid/{pid}")
+    public ResponseEntity<HttpStatus> deletePatient(@PathVariable("pid") long pid) throws Exception{
+        Boolean isDeleted = patientService.deletePatientByPid(pid);
+        return isDeleted ?
+                ResponseEntity.ok().build() :
+                ResponseEntity.notFound().build();
     }
 }
