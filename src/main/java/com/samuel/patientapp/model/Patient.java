@@ -4,7 +4,7 @@ package com.samuel.patientapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Table(name = "patient")
 @Entity
@@ -22,7 +22,7 @@ public class Patient {
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "birth_date")
-    private Date birthDate;
+    private LocalDate birthDate;
     @Column(name = "gender")
     private String gender;
     @Column(name = "phone_number")
