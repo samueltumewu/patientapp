@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.LowerCamelCaseStrategy.class)
-public class ApiResponse<T> {
+public class MyApiResponse<T> {
     private String code;
     private String message;
     private T data;

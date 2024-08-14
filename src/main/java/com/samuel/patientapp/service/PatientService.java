@@ -1,7 +1,9 @@
 package com.samuel.patientapp.service;
 
+import com.samuel.patientapp.dto.PatientDTO;
 import com.samuel.patientapp.model.Patient;
 import com.samuel.patientapp.repository.PatientRepository;
+import com.samuel.patientapp.util.MyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -38,12 +39,11 @@ public class PatientService {
         return patientRepository.save(newPatient);
     }
 
-    public Patient updateExistingPatient(Long pid, Patient patientToUpdate) {
+    public Patient updateExistingPatient(Long pid, PatientDTO patientToUpdate) {
         Patient foundPatient = getPatientByPID(pid);
         if (foundPatient != null) {
-            patientToUpdate.setPid(pid);
-            patientRepository.save(patientToUpdate);
-            return patientToUpdate;
+            MyMapper.reflectionMapperDtoToEntity(patientToUpdate, foundPatient);
+            return patientRepository.save(foundPatient);
         } else {
             return null;
         }
