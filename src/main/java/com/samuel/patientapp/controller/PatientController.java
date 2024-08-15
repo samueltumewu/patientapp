@@ -1,5 +1,6 @@
 package com.samuel.patientapp.controller;
 
+import com.samuel.patientapp.annotations.classmethodtiming.ClassMethodTiming;
 import com.samuel.patientapp.dto.MyApiPaginatedResponse;
 import com.samuel.patientapp.dto.MyApiResponse;
 import com.samuel.patientapp.dto.PaginatedDataDTO;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/patient")
+@ClassMethodTiming
 public class PatientController {
     @Autowired
     PatientService patientService;
